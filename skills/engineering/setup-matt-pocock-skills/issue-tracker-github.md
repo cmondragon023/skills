@@ -9,7 +9,7 @@ Issues and specs for this repo live as GitHub issues. Use the `gh` CLI for all o
 - **List issues**: `gh issue list --state open --json number,title,body,labels,comments --jq '[.[] | {number, title, body, labels: [.labels[].name], comments: [.comments[].body]}]'` with appropriate `--label` and `--state` filters.
 - **Comment on an issue**: `gh issue comment <number> --body "..."`
 - **Apply / remove labels**: `gh issue edit <number> --add-label "..."` / `--remove-label "..."`
-- **Close**: `gh issue close <number> --comment "..."`
+- **Close**: `gh issue close <number>`. Post the explanation first with `gh issue comment <number> --body "..."`, then close: on an issue that is already closed, `gh issue close --comment` returns before it reaches the comment, so the body is discarded and the exit status is still 0. A commit carrying `Closes #<number>` closes the issue as soon as it lands, which makes this the common case rather than the edge case.
 
 Infer the repo from `git remote -v` — `gh` does this automatically when run inside a clone.
 
