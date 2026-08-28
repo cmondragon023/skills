@@ -38,6 +38,10 @@ One caveat from a user report on parallel worktrees: when sibling [sessions](htt
 
 Aborting throws away the resolution work and returns you to the same conflict, unchanged, the next time you try. The skill is written for the case where the merge is going to happen. If you have decided it should not happen, that is a decision to make before invoking, not a branch inside the loop.
 
+**Can `git rebase --continue` wait forever for an editor?**
+
+Yes. After a conflict is resolved, Git may open an editor for the rebased commit message. An unattended agent then appears to hang even though the conflict itself is finished. The skill continues with `git -c core.editor=true -c sequence.editor=true rebase --continue`, which accepts the existing message without opening an interactive editor.
+
 ## It's working if
 
 - The agent quotes commit messages, PRs or issues at you while resolving, not just diff hunks.
@@ -45,6 +49,7 @@ Aborting throws away the resolution work and returns you to the same conflict, u
 - Nothing appears in the result that was on neither branch.
 - Typecheck, tests and format were located and run green *before* the commit, not after you noticed something broken.
 - You end on a clean tree with the operation completed, including every remaining commit in a multi-commit rebase.
+- Rebase continuation never waits for an interactive editor.
 
 ## Where it fits
 
